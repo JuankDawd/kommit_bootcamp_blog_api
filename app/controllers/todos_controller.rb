@@ -9,8 +9,13 @@ class TodosController < ApplicationController
 
   # POST /todos
   def create
-    @todo = Todo.create!(todo_params)
-    json_response(@todo, :created)
+    @todo = Todo.new(todo_params)
+    @todo.created_by = current_user.id
+    if @todo.save
+      json_response(@todo, :created)
+    else
+      json_response(@todo, :error)
+    end
   end
 
   # GET /todos/:id
@@ -26,6 +31,7 @@ class TodosController < ApplicationController
 
   # DELETE /todos/:id
   def destroy
+    
     @todo.destroy
     head :no_content
   end
@@ -34,7 +40,7 @@ class TodosController < ApplicationController
 
   def todo_params
     # whitelist params
-    params.permit(:title, :created_by)
+    params.permit(:title)
   end
 
   def set_todo
