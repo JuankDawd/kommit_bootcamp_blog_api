@@ -1,7 +1,7 @@
 class TodosController < ApplicationController
   before_action :authenticate_user!
   before_action :set_todo, only: %i[show update destroy]
-  
+
   # GET /todos
   def index
     @todos = Todo.all
@@ -32,7 +32,6 @@ class TodosController < ApplicationController
 
   # DELETE /todos/:id
   def destroy
-    
     @todo.destroy
     head :no_content
   end
